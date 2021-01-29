@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 
 public class Buttons : MonoBehaviour
@@ -6,16 +7,24 @@ public class Buttons : MonoBehaviour
     [SerializeField] private GameObject menuButtons;
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject inventory;
-    
+    private bool openMenu;
+
+    private void Start()
+    {
+        openMenu = false;
+    }
+
     public void OpenMenu()
     {
-        if (menuButtons.activeSelf)
+        if (openMenu)
         {
             menuButtons.SetActive(false);
+            openMenu = false;
         }
         else
         {
             menuButtons.SetActive(true);
+            openMenu = true;
         }
     }
 
@@ -29,5 +38,11 @@ public class Buttons : MonoBehaviour
     {
         menuButtons.SetActive(false);
         menu.SetActive(false);
+        openMenu = false;
+    }
+
+    public void Test()
+    {
+       menuButtons.SetActive(false); 
     }
 }

@@ -26,7 +26,7 @@ public class TouchManager : MonoBehaviour
             //creates a raycast that is looking for colliders
             if (Physics.Raycast(touchPosition, Vector3.forward, out hit))
             {
-                if (hit.collider.gameObject.tag.Equals("Food"))
+                if (hit.collider.gameObject.tag.Equals("Draggable"))
                 {
                     isDragged = true;
                     draggedObject = hit.collider.gameObject;

@@ -1,13 +1,12 @@
-using System;
-using TMPro;
+
 using UnityEngine;
 
 public class Dinosaur : MonoBehaviour
 {
     protected string name;
-    protected int hunger;
-    protected int thirst;
-    protected int loneliness;
+    protected float hunger;
+    protected float thirst;
+    protected float loneliness;
     protected int size;
     protected int level;
     protected bool ill;
@@ -15,9 +14,28 @@ public class Dinosaur : MonoBehaviour
     protected bool plantEater;
     protected bool fleshEater;
     protected float desireTimer;
+    protected int xp;
+    protected float illness;
+    protected int coins;
 
     public void Feed(Food food)
     {
         hunger += food.fillAmount;
+        xp += food.xp;
+        FindObjectOfType<Animator>().Play("eatingAnimation");
+    }
+
+    public void Drink(Drink drink)
+    {
+        thirst += drink.fillAmount;
+        xp += drink.xp;
+        FindObjectOfType<Animator>().Play("eatingAnimation");
+    }
+
+    public void Medicine(Medicin medicin)
+    {
+        illness += medicin.fillAmount;
+        xp += medicin.xp;
+        FindObjectOfType<Animator>().Play("eatingAnimation");
     }
 }
