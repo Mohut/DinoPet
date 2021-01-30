@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Dino
   - Draggable
+  - Coin
   layers:
   - Default
   - TransparentFX
