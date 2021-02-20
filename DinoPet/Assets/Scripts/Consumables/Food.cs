@@ -18,7 +18,7 @@ public class Food : MonoBehaviour
         if (other.gameObject.tag.Equals("Dino"))
         {
             touchManager.isDragged = false;
-            other.gameObject.GetComponentInParent<Dinosaur>().Feed(this);
+            other.gameObject.GetComponentInParent<Utahraptor>().Feed(this);
             Destroy(gameObject);
         }
     }

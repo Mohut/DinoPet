@@ -20,7 +20,7 @@ public class Medicin : MonoBehaviour
         if (other.gameObject.tag.Equals("Dino"))
         {
             touchManager.isDragged = false;
-            other.gameObject.GetComponentInParent<Dinosaur>().Medicine(this);
+            other.gameObject.GetComponentInParent<Utahraptor>().Medicine(this);
             Destroy(gameObject);
         }
     }
