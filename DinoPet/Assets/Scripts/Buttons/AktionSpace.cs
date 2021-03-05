@@ -22,7 +22,6 @@ public class AktionSpace : MonoBehaviour
             nightSky.enabled = true;
             return;
         }
-            
 
         if (light.intensity == 0.65f)
         { 

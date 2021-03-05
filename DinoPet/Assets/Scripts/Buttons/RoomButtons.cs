@@ -8,54 +8,66 @@ public class RoomButtons : MonoBehaviour
     [SerializeField] private GameObject shopButton;
     [SerializeField] private GameObject lampButton;
     [SerializeField] private GameObject placeholder;
+    [SerializeField] private Light light;
+    [SerializeField] private AktionSpace aktionSpace;
+    
+    
+   
     public void PlayRoom()
     {
         if (transform.position.x == 0)
             return;
+
+        
         
         StartCoroutine(LerpFromTo(transform.position, new Vector3(0, 3.5f, -1), duration));
         shopButton.SetActive(false);
         placeholder.SetActive(true);
         lampButton.SetActive(false);
+        WakeUp();
     }
 
     public void Shop()
     {
         if (transform.position.x == 32)
             return;
-        
+
         StartCoroutine(LerpFromTo(transform.position, new Vector3(32, 3.5f, -1), duration));
         shopButton.SetActive(true);
         placeholder.SetActive(false);
         lampButton.SetActive(false);
+        WakeUp();
     }
     
     public void Wardrobe()
     {
         if (transform.position.x == 16)
             return;
+
         StartCoroutine(LerpFromTo(transform.position, new Vector3(16, 3.5f, -1), duration));
         shopButton.SetActive(false);
         placeholder.SetActive(true);
         lampButton.SetActive(false);
+        WakeUp();
     }
     
     public void Kitchen()
     {
         if (transform.position.x == -16)
             return;
-        
+
         StartCoroutine(LerpFromTo(transform.position, new Vector3(-16, 3.5f, -1), duration));
         shopButton.SetActive(false);
         placeholder.SetActive(true);
         lampButton.SetActive(false);
+        WakeUp();
     }
     
     public void Bedroom()
     {
         if (transform.position.x == -32)
             return;
-        
+
         StartCoroutine(LerpFromTo(transform.position, new Vector3(-32, 3.5f, -1), duration));
         shopButton.SetActive(false);
         placeholder.SetActive(false);
@@ -69,6 +81,14 @@ public class RoomButtons : MonoBehaviour
             yield return 0;
         }
         transform.position = pos2;
+    }
+
+    public void WakeUp()
+    {
+        if (light.intensity == 0.65f)
+        {
+            aktionSpace.Light();
+        }
     }
     
 }

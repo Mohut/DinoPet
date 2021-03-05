@@ -1,8 +1,10 @@
 
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class Utahraptor : MonoBehaviour
 {
@@ -27,8 +29,8 @@ public class Utahraptor : MonoBehaviour
     public float affection;
     private float fun;
     private float illness;
-    
-    
+
+
     private void Start()
     {
         name = "Utahraptor";

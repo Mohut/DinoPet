@@ -7,6 +7,7 @@ TagManager:
   - Dino
   - Draggable
   - Coin
+  - Pet
   layers:
   - Default
   - TransparentFX

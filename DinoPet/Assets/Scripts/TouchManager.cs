@@ -7,10 +7,14 @@ public class TouchManager : MonoBehaviour
     [SerializeField] private Camera camera;
     public bool isDragged;
     private GameObject draggedObject;
+    [SerializeField] private Animator animator;
+    private bool getPetted;
+    
 
     private void Start()
     {
         isDragged = false;
+        getPetted = false;
     }
 
     void Update()
@@ -22,14 +26,25 @@ public class TouchManager : MonoBehaviour
             touchPosition = camera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 1));
             touchPosition.z = -10f;
             RaycastHit hit;
-            
+
             //creates a raycast that is looking for colliders
             if (Physics.Raycast(touchPosition, Vector3.forward, out hit))
             {
-                if (hit.collider.gameObject.tag.Equals("Draggable"))
+                if (hit.collider)
                 {
-                    isDragged = true;
-                    draggedObject = hit.collider.gameObject;
+                   if (hit.collider.gameObject.tag.Equals("Draggable"))
+                   {
+                       isDragged = true;
+                       draggedObject = hit.collider.gameObject;
+                   }
+                   
+                   if (hit.collider.gameObject.tag.Equals("Pet")) 
+                   {
+                       if(!getPetted)
+                           animator.Play("PetEnter");
+                       
+                       getPetted = true; 
+                   }
                 }
             }
         }
@@ -44,6 +59,11 @@ public class TouchManager : MonoBehaviour
         if (Input.touchCount == 0)
         {
             isDragged = false;
+            
+            if(getPetted)
+                animator.Play("PetExit");
+            
+            getPetted = false;
         }
     }
 }
