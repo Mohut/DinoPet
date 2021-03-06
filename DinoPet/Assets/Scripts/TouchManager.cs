@@ -22,6 +22,8 @@ public class TouchManager : MonoBehaviour
         //checks if someone is touching the screen
         if (Input.touchCount > 0)
         {
+        
+        /*
             var touch = Input.GetTouch(0);
             touchPosition = camera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 1));
             touchPosition.z = -10f;
@@ -45,6 +47,37 @@ public class TouchManager : MonoBehaviour
                        
                        getPetted = true; 
                    }
+                }
+            }
+            
+            */
+        
+            var position = Input.GetTouch(0).position;
+            Debug.Log(position);
+            
+
+            if (position.x <= 420 && position.x >= 250 && position.y >= 330 && position.y <= 750)
+            {
+                
+                if (Input.GetTouch(0).phase == TouchPhase.Moved)
+                {
+                    if (!getPetted)
+                    {
+                        animator.Play("PetEnter");
+                        getPetted = true;
+                    }
+                    Debug.Log(position);
+                }else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    
+                }
+            }
+            else
+            {
+                if (getPetted)
+                {
+                    animator.Play("PetExit");
+                    getPetted = false;
                 }
             }
         }
