@@ -8,7 +8,13 @@ public class AktionSpace : MonoBehaviour
     [SerializeField] private GameObject shop;
     [SerializeField] private Light light;
     [SerializeField] private SpriteRenderer nightSky;
-    
+    [SerializeField] private Animator animator;
+    private Wink winkScript;
+
+    private void Start()
+    {
+        winkScript = FindObjectOfType<Wink>();
+    }
     public void ShopButton()
     {
         shop.SetActive(!shop.activeSelf);
@@ -20,6 +26,9 @@ public class AktionSpace : MonoBehaviour
         {
             light.intensity = 0.65f;
             nightSky.enabled = true;
+            animator.Play("SleepEnter");
+            winkScript.asleep = 1;
+            winkScript.Sleep();
             return;
         }
 
@@ -27,6 +36,9 @@ public class AktionSpace : MonoBehaviour
         { 
             light.intensity = 1;
             nightSky.enabled = false;
+            animator.Play("SleepExit");
+            winkScript.asleep = 0;
+            winkScript.WakeUp();
         }
     }
 }

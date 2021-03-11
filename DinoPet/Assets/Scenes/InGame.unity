@@ -853,6 +853,7 @@ MonoBehaviour:
   placeholder: {fileID: 124039861}
   light: {fileID: 705507994}
   aktionSpace: {fileID: 268970415}
+  animator: {fileID: 523398819}
 --- !u!1 &255558476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,6 +1046,7 @@ MonoBehaviour:
   shop: {fileID: 1268696942}
   light: {fileID: 705507994}
   nightSky: {fileID: 2106910807}
+  animator: {fileID: 523398819}
 --- !u!1 &280142918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,6 +1554,7 @@ MonoBehaviour:
   leftEyeMaterial: {fileID: 1619222581}
   openTime: 5
   closeTime: 0.3
+  asleep: 0
 --- !u!114 &523398821
 MonoBehaviour:
   m_ObjectHideFlags: 0

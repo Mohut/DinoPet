@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,9 +11,14 @@ public class RoomButtons : MonoBehaviour
     [SerializeField] private GameObject placeholder;
     [SerializeField] private Light light;
     [SerializeField] private AktionSpace aktionSpace;
-    
-    
-   
+    [SerializeField] private Animator animator;
+    private Wink winkScript;
+
+    private void Start()
+    {
+        winkScript = FindObjectOfType<Wink>();
+    }
+
     public void PlayRoom()
     {
         if (transform.position.x == 0)
@@ -88,6 +94,9 @@ public class RoomButtons : MonoBehaviour
         if (light.intensity == 0.65f)
         {
             aktionSpace.Light();
+            animator.Play("SleepExit");
+            winkScript.asleep = 0;
+            winkScript.WakeUp();
         }
     }
     
