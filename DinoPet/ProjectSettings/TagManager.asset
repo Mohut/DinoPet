@@ -8,6 +8,7 @@ TagManager:
   - Draggable
   - Coin
   - Pet
+  - Obstacle
   layers:
   - Default
   - TransparentFX
