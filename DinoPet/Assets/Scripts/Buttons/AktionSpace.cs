@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 
 public class AktionSpace : MonoBehaviour
@@ -10,11 +8,13 @@ public class AktionSpace : MonoBehaviour
     [SerializeField] private SpriteRenderer nightSky;
     [SerializeField] private Animator animator;
     private Wink winkScript;
+    public bool animationActive;
 
     private void Start()
     {
         winkScript = FindObjectOfType<Wink>();
     }
+
     public void ShopButton()
     {
         shop.SetActive(!shop.activeSelf);
@@ -22,10 +22,14 @@ public class AktionSpace : MonoBehaviour
 
     public void Light()
     {
+        if (animationActive)
+            return;
+
+        animationActive = true;
         if (light.intensity == 1)
         {
             light.intensity = 0.65f;
-            nightSky.enabled = true;
+            StartCoroutine(FadeIn());
             animator.Play("SleepEnter");
             winkScript.asleep = 1;
             winkScript.Sleep();
@@ -33,12 +37,37 @@ public class AktionSpace : MonoBehaviour
         }
 
         if (light.intensity == 0.65f)
-        { 
+        {
             light.intensity = 1;
-            nightSky.enabled = false;
+            StartCoroutine(FadeOut());
             animator.Play("SleepExit");
             winkScript.asleep = 0;
             winkScript.WakeUp();
         }
+    }
+
+    IEnumerator FadeIn()
+    {
+        
+        while(nightSky.color.a < 1)
+        {
+            nightSky.color = new Color(nightSky.color.r, nightSky.color.g, nightSky.color.b, nightSky.color.a + 0.015f);
+            yield return new WaitForSeconds(0.005f);
+        }
+
+        animationActive = false;
+        yield return null;
+    }
+    
+    IEnumerator FadeOut()
+    {
+        while(nightSky.color.a > 0f)
+        {
+            nightSky.color = new Color(nightSky.color.r, nightSky.color.g, nightSky.color.b, nightSky.color.a - 0.015f);
+            yield return new WaitForSeconds(0.005f);
+        }
+
+        animationActive = false;
+        yield return null;
     }
 }

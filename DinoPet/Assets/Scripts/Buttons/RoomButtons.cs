@@ -21,10 +21,11 @@ public class RoomButtons : MonoBehaviour
 
     public void PlayRoom()
     {
+        if (winkScript.asleep == 1)
+            return;
+        
         if (transform.position.x == 0)
             return;
-
-        
         
         StartCoroutine(LerpFromTo(transform.position, new Vector3(0, 3.5f, -1), duration));
         shopButton.SetActive(false);
@@ -35,6 +36,9 @@ public class RoomButtons : MonoBehaviour
 
     public void Shop()
     {
+        if (winkScript.asleep == 1)
+            return;
+        
         if (transform.position.x == 32)
             return;
 
@@ -47,6 +51,9 @@ public class RoomButtons : MonoBehaviour
     
     public void Wardrobe()
     {
+        if (winkScript.asleep == 1)
+            return;
+        
         if (transform.position.x == 16)
             return;
 
@@ -59,6 +66,9 @@ public class RoomButtons : MonoBehaviour
     
     public void Kitchen()
     {
+        if (winkScript.asleep == 1)
+            return;
+        
         if (transform.position.x == -16)
             return;
 
@@ -71,6 +81,9 @@ public class RoomButtons : MonoBehaviour
     
     public void Bedroom()
     {
+        if (winkScript.asleep == 1)
+            return;
+        
         if (transform.position.x == -32)
             return;
 
@@ -88,14 +101,15 @@ public class RoomButtons : MonoBehaviour
         }
         transform.position = pos2;
     }
+    
 
     public void WakeUp()
     {
         if (light.intensity == 0.65f)
         {
+            winkScript.asleep = 0;
             aktionSpace.Light();
             animator.Play("SleepExit");
-            winkScript.asleep = 0;
             winkScript.WakeUp();
         }
     }
