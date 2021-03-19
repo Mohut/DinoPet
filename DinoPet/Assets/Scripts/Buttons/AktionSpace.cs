@@ -51,8 +51,8 @@ public class AktionSpace : MonoBehaviour
         
         while(nightSky.color.a < 1)
         {
-            nightSky.color = new Color(nightSky.color.r, nightSky.color.g, nightSky.color.b, nightSky.color.a + 0.015f);
-            yield return new WaitForSeconds(0.005f);
+            nightSky.color = new Color(nightSky.color.r, nightSky.color.g, nightSky.color.b, nightSky.color.a + 0.02f);
+            yield return new WaitForSeconds(0.02f);
         }
 
         animationActive = false;
@@ -63,8 +63,8 @@ public class AktionSpace : MonoBehaviour
     {
         while(nightSky.color.a > 0f)
         {
-            nightSky.color = new Color(nightSky.color.r, nightSky.color.g, nightSky.color.b, nightSky.color.a - 0.015f);
-            yield return new WaitForSeconds(0.005f);
+            nightSky.color = new Color(nightSky.color.r, nightSky.color.g, nightSky.color.b, nightSky.color.a - 0.02f);
+            yield return new WaitForSeconds(0.02f);
         }
 
         animationActive = false;

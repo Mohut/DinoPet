@@ -108,5 +108,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3973b206dd1a47f409eb2e9152a83146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshArray:
+  - {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  fillAmountArray: 000000000000000000000000
+  xpArray: 000000000000000000000000
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   fillAmount: 30
   xp: 30

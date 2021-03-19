@@ -8,6 +8,7 @@ public class RoomButtons : MonoBehaviour
     [SerializeField] private float duration;
     [SerializeField] private GameObject shopButton;
     [SerializeField] private GameObject lampButton;
+    [SerializeField] private GameObject inventory;
     [SerializeField] private GameObject placeholder;
     [SerializeField] private Light light;
     [SerializeField] private AktionSpace aktionSpace;
@@ -31,6 +32,7 @@ public class RoomButtons : MonoBehaviour
         shopButton.SetActive(false);
         placeholder.SetActive(true);
         lampButton.SetActive(false);
+        inventory.SetActive(false);
         WakeUp();
     }
 
@@ -46,6 +48,7 @@ public class RoomButtons : MonoBehaviour
         shopButton.SetActive(true);
         placeholder.SetActive(false);
         lampButton.SetActive(false);
+        inventory.SetActive(false);
         WakeUp();
     }
     
@@ -61,6 +64,7 @@ public class RoomButtons : MonoBehaviour
         shopButton.SetActive(false);
         placeholder.SetActive(true);
         lampButton.SetActive(false);
+        inventory.SetActive(false);
         WakeUp();
     }
     
@@ -74,8 +78,9 @@ public class RoomButtons : MonoBehaviour
 
         StartCoroutine(LerpFromTo(transform.position, new Vector3(-16, 3.5f, -1), duration));
         shopButton.SetActive(false);
-        placeholder.SetActive(true);
+        placeholder.SetActive(false);
         lampButton.SetActive(false);
+        inventory.SetActive(true);
         WakeUp();
     }
     
@@ -91,6 +96,7 @@ public class RoomButtons : MonoBehaviour
         shopButton.SetActive(false);
         placeholder.SetActive(false);
         lampButton.SetActive(true);
+        inventory.SetActive(false);
     }
 
     IEnumerator LerpFromTo(Vector3 pos1, Vector3 pos2, float duration)
