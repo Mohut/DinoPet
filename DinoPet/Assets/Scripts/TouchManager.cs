@@ -11,6 +11,8 @@ public class TouchManager : MonoBehaviour
     public bool isDragged;
     private GameObject draggedObject;
     private Vector3 currentPosition;
+    private float eatingTimer;
+    private bool eating;
 
     private bool getsPetted;
     private float notPetTimer;
@@ -25,15 +27,29 @@ public class TouchManager : MonoBehaviour
     {
         isDragged = false;
         getsPetted = false;
+        eating = false;
         notPetTimer = 1;
+        eatingTimer = 2;
     }
 
     void Update()
     {
+        if (eating)
+        {
+            eatingTimer -= Time.deltaTime;
+        }
+
+        if (eatingTimer <= 0)
+        {
+            eating = false;
+        }
+        
         if (Input.touchCount > 0)
         {
+            FoodInventory();
+            
             //checks if a finger is moving over the screen
-            if (Input.GetTouch(0).phase == TouchPhase.Moved)
+            if (Input.GetTouch(0).phase == TouchPhase.Moved && !isDragged && !eating)
             {
                 notPetTimer = 1;
                 Pet(Input.GetTouch(0).position);
@@ -42,9 +58,7 @@ public class TouchManager : MonoBehaviour
             {
                 notPetTimer -= Time.deltaTime;
             }
-
-            FoodInventory();
-           
+            
            //lets the gameObject follow the finger of the player
            if (isDragged)
            {
@@ -107,6 +121,8 @@ public class TouchManager : MonoBehaviour
                 Destroy(draggedObject);
                 isDragged = false;
                 FindObjectOfType<Utahraptor>().Feed(foodList[1]);
+                eatingTimer = 2;
+                eating = true;
             }
         }
     }
