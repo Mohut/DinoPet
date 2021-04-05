@@ -19,7 +19,6 @@ public class TouchManager : MonoBehaviour
     void Awake () {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 30;
-        isDragged = false;
     }
 
     private void Start()
@@ -53,6 +52,12 @@ public class TouchManager : MonoBehaviour
                draggedObject.transform.position = Camera.main.ScreenToWorldPoint(position);
            }
         }
+        //destroys the gameObject if the player does not touch the screen anymore
+        else if (isDragged)
+        {
+            Destroy(draggedObject);
+            isDragged = false;
+        }
         
         //if the finger does not touch the screen after petting
         if (Input.touchCount == 0 && getsPetted)
@@ -66,13 +71,6 @@ public class TouchManager : MonoBehaviour
             getsPetted = false;
             animator.Play("petExit");
         }
-        
-        //destroys the gameObject if the player does not touch the screen anymore
-        else if (isDragged)
-        {
-            Destroy(draggedObject);
-            isDragged = false;
-        }
     }
 
     
@@ -80,8 +78,7 @@ public class TouchManager : MonoBehaviour
     public void FoodInventory()
     {
         currentPosition = new Vector2(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
-        
-        
+
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
         pointerEventData.position = currentPosition;
 
@@ -110,8 +107,6 @@ public class TouchManager : MonoBehaviour
                 Destroy(draggedObject);
                 isDragged = false;
                 FindObjectOfType<Utahraptor>().Feed(foodList[1]);
-                    
-                Debug.Log("tasty");
             }
         }
     }
@@ -126,7 +121,7 @@ public class TouchManager : MonoBehaviour
         if (touchPosition.x > position1.x && touchPosition.x < position2.x &&
             touchPosition.y > position1.y && touchPosition.y < position2.y)
         {
-            if (!getsPetted)
+            if (!getsPetted && !isDragged)
             {
                 getsPetted = true;
                 animator.Play("petEnter");
