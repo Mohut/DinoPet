@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 242820110686929002}
   - component: {fileID: 242820110686929003}
   - component: {fileID: 242820110686928980}
-  - component: {fileID: 2890923343894722933}
+  - component: {fileID: 8731224797215002720}
   m_Layer: 0
   m_Name: Medicine
   m_TagString: Draggable
@@ -97,7 +97,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2890923343894722933
+--- !u!114 &8731224797215002720
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,8 +106,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 242820110686928981}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eb061017c0795f46a755ef767a1568a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3973b206dd1a47f409eb2e9152a83146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fillAmount: 100
-  xp: 20
+  fillAmount: 0
+  xp: 0

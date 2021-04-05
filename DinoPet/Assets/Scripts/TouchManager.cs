@@ -10,8 +10,10 @@ public class TouchManager : MonoBehaviour
     
     public bool isDragged;
     private GameObject draggedObject;
-    private bool getPetted;
     private Vector3 currentPosition;
+
+    private bool getsPetted;
+    private float notPetTimer;
 
 
     void Awake () {
@@ -23,26 +25,49 @@ public class TouchManager : MonoBehaviour
     private void Start()
     {
         isDragged = false;
-        getPetted = false;
+        getsPetted = false;
+        notPetTimer = 1;
     }
 
     void Update()
     {
         if (Input.touchCount > 0)
         {
-           //Pet();
-           FoodInventory();
+            //checks if a finger is moving over the screen
+            if (Input.GetTouch(0).phase == TouchPhase.Moved)
+            {
+                notPetTimer = 1;
+                Pet(Input.GetTouch(0).position);
+            }
+            else
+            {
+                notPetTimer -= Time.deltaTime;
+            }
 
+            FoodInventory();
+           
+           //lets the gameObject follow the finger of the player
            if (isDragged)
            {
-               var position = Camera.main.ScreenToWorldPoint(new Vector3(currentPosition.x, currentPosition.y, 1));
-               draggedObject.transform.position = position;
+               var position = new Vector3(currentPosition.x, currentPosition.y, 1);
+               draggedObject.transform.position = Camera.main.ScreenToWorldPoint(position);
            }
-
-           
-           
-
         }
+        
+        //if the finger does not touch the screen after petting
+        if (Input.touchCount == 0 && getsPetted)
+        {
+            notPetTimer -= Time.deltaTime;
+        }
+        
+        //ends petting animation after one second not petting
+        if (notPetTimer <= 0 && getsPetted)
+        {
+            getsPetted = false;
+            animator.Play("petExit");
+        }
+        
+        //destroys the gameObject if the player does not touch the screen anymore
         else if (isDragged)
         {
             Destroy(draggedObject);
@@ -50,6 +75,8 @@ public class TouchManager : MonoBehaviour
         }
     }
 
+    
+    //checks if the finger touches a food slot. if so it instantiates the corresponding food
     public void FoodInventory()
     {
         currentPosition = new Vector2(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
@@ -62,57 +89,48 @@ public class TouchManager : MonoBehaviour
         EventSystem.current.RaycastAll(pointerEventData, raycastResult);
         for (int i = 0; i < raycastResult.Count; i++)
         {
+            
+            //checks if the finger is other a food slot
             if (raycastResult[i].gameObject.tag.Equals("FoodSlot") && !isDragged)
             {
                 draggedObject = Instantiate(foodList[1], Camera.main.ScreenToWorldPoint(currentPosition), Quaternion.identity);
                 isDragged = true;
             }
-
-            if (!raycastResult[i].gameObject.tag.Equals("FoodSlot") && isDragged)
+            
+            //checks if the finger is over another UI element
+            if (!raycastResult[i].gameObject.tag.Equals("FoodSlot") && isDragged && !raycastResult[i].gameObject.tag.Equals("Dino"))
             {
                 Destroy(draggedObject);
                 isDragged = false;
             }
+            
+            //checks if the finger is over the mouth of the dino
+            if (raycastResult[i].gameObject.tag.Equals("Dino") && isDragged)
+            {
+                Destroy(draggedObject);
+                isDragged = false;
+                FindObjectOfType<Utahraptor>().Feed(foodList[1]);
+                    
+                Debug.Log("tasty");
+            }
         }
     }
 
-    public void Pet()
+    //checks if the player is petting the dino
+    public void Pet(Vector3 touchPosition)
     {
-
-        var position = Input.GetTouch(0).position;
-
-        if (position.x <= 420 && position.x >= 250 && position.y >= 330 && position.y <= 750)
-        {
-
-            if (Input.GetTouch(0).phase == TouchPhase.Moved)
-            {
-                if (!getPetted)
-                {
-                    animator.Play("PetEnter");
-                    getPetted = true;
-                }
-            }
-            else if (Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-
-            }
-        }
-        else
-        {
-            if (getPetted)
-            {
-                animator.Play("PetExit");
-                getPetted = false;
-            }
-        }
+        var position1 = Camera.main.ViewportToScreenPoint(new Vector2(0.3f, 0.3f));
+        var position2 = Camera.main.ViewportToScreenPoint(new Vector2(0.6f, 0.7f));
         
-
-        if (Input.touchCount == 0)
+        
+        if (touchPosition.x > position1.x && touchPosition.x < position2.x &&
+            touchPosition.y > position1.y && touchPosition.y < position2.y)
         {
-            if (getPetted)
-                animator.Play("PetExit");
-
-            getPetted = false;
+            if (!getsPetted)
+            {
+                getsPetted = true;
+                animator.Play("petEnter");
+            }
         }
     }
 
