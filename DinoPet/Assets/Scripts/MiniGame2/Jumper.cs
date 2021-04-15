@@ -16,6 +16,9 @@ public class Jumper : MonoBehaviour
     private Vector3 originalSize;
     private BoxCollider[] boxColliders;
 
+    private bool inAir;
+    private bool first_jump;
+
 
     private void Start()
     {
@@ -23,6 +26,8 @@ public class Jumper : MonoBehaviour
         originalSize = transform.localScale;
         animator = GetComponent<Animator>();
         boxColliders = GetComponents<BoxCollider>();
+
+        inAir = false;
     }
 
     private void Update()
@@ -32,8 +37,12 @@ public class Jumper : MonoBehaviour
             
                 if (Input.GetTouch(0).position.y > Screen.height / 2)
                 {
-                    Jump();
-                    duck = false;
+                    if (!inAir)
+                    {
+                        Jump();
+                        duck = false;
+                    }
+                    
                     //jumpbetter.Jumping();
                 }
                 else
@@ -57,11 +66,31 @@ public class Jumper : MonoBehaviour
 
         }
 
+        if (inAir)
+        {
+            if (rb.velocity.y < 0)
+            {
+                animator.SetTrigger("startfall");
+                first_jump = false;
+
+            }
+
+            if (transform.position.y < 0 && !first_jump)
+            {
+                Debug.Log("grounded");
+                animator.SetTrigger("onGround");
+                inAir = false;
+            }
+        }
+
         
     }
 
     void Jump()
     {
+        first_jump = true;
+        inAir = true;
+        animator.SetTrigger("jump");
         if (transform.position.y <= -0.5)
         {
             rb.velocity = Vector2.up * jumpForce;
@@ -79,4 +108,6 @@ public class Jumper : MonoBehaviour
 
         }
     }
+    
+    
 }
