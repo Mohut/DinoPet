@@ -7,9 +7,28 @@ public class Jumper : MonoBehaviour
 {
 
     public Rigidbody rb;
-
     public float jumpForce;
-    public bool duck = false;
+    public Animator animator;
+    
+    private bool duck = false;
+
+    public Jumpbetter jumpbetter;
+    private Vector3 originalSize;
+    private BoxCollider[] boxColliders;
+
+    private bool inAir;
+    private bool first_jump;
+
+
+    private void Start()
+    {
+        jumpbetter = GetComponent<Jumpbetter>();
+        originalSize = transform.localScale;
+        animator = GetComponent<Animator>();
+        boxColliders = GetComponents<BoxCollider>();
+
+        inAir = false;
+    }
 
     private void Update()
     {
@@ -18,22 +37,50 @@ public class Jumper : MonoBehaviour
             
                 if (Input.GetTouch(0).position.y > Screen.height / 2)
                 {
-                    Jump();
-                    duck = false;
+                    if (!inAir)
+                    {
+                        Jump();
+                        duck = false;
+                    }
+                    
+                    //jumpbetter.Jumping();
                 }
                 else
                 {
                     Duck();
                     duck = true;
+                    
                 }
                 
-
-            if (Input.GetTouch(0).phase == TouchPhase.Ended || !duck)
+            // if he isnt crouching anymore
+            if (Input.GetTouch(0).phase == TouchPhase.Ended && duck)
             {
-                this.transform.localScale = new Vector3(1, 1, 1);
+                duck = false;
+                this.transform.localScale = originalSize;
+                animator.SetBool("crouching", duck);
+                boxColliders[0].enabled = true;
+                boxColliders[1].enabled = false;
+
             }
             
 
+        }
+
+        if (inAir)
+        {
+            if (rb.velocity.y < 0)
+            {
+                animator.SetTrigger("startfall");
+                first_jump = false;
+
+            }
+
+            if (transform.position.y < 0 && !first_jump)
+            {
+                Debug.Log("grounded");
+                animator.SetTrigger("onGround");
+                inAir = false;
+            }
         }
 
         
@@ -41,9 +88,12 @@ public class Jumper : MonoBehaviour
 
     void Jump()
     {
+        first_jump = true;
+        inAir = true;
+        animator.SetTrigger("jump");
         if (transform.position.y <= -0.5)
         {
-            GetComponent<Rigidbody>().velocity = Vector2.up * jumpForce;
+            rb.velocity = Vector2.up * jumpForce;
         }
     }
 
@@ -51,8 +101,13 @@ public class Jumper : MonoBehaviour
     {
         if (transform.position.y <= -0.5)
         {
-            this.transform.localScale = new Vector3(1, 0.5f, 1);
             duck = true;
+            animator.SetBool("crouching", duck);
+            boxColliders[0].enabled = false;
+            boxColliders[1].enabled = true;
+
         }
     }
+    
+    
 }
