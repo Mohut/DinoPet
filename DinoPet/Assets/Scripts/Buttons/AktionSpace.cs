@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Transactions;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AktionSpace : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class AktionSpace : MonoBehaviour
     [SerializeField] private Light light;
     [SerializeField] private SpriteRenderer nightSky;
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject games;
     private Wink winkScript;
     public bool animationActive;
 
@@ -99,5 +101,15 @@ public class AktionSpace : MonoBehaviour
             }
         }
         yield return null; 
+    }
+
+    public void Games()
+    {
+        games.SetActive(!games.activeSelf);
+    }
+
+    public void StartGames(int number)
+    {
+        SceneManager.LoadScene("Minigame" + number);
     }
 }
