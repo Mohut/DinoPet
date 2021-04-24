@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-
 public class TouchManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] foodList;
@@ -16,6 +15,7 @@ public class TouchManager : MonoBehaviour
 
     private bool getsPetted;
     private float notPetTimer;
+    private int petAnimation;
 
 
     void Awake () {
@@ -30,6 +30,9 @@ public class TouchManager : MonoBehaviour
         eating = false;
         notPetTimer = 1;
         eatingTimer = 2;
+        petAnimation = 1;
+        
+        InvokeRepeating(nameof(RandomNumber), 1, 1);
     }
 
     void Update()
@@ -83,8 +86,10 @@ public class TouchManager : MonoBehaviour
         if (notPetTimer <= 0 && getsPetted)
         {
             getsPetted = false;
-            animator.Play("petExit");
+            animator.SetBool("petted", false);
         }
+        
+        PetRandom(petAnimation);
     }
 
     
@@ -140,9 +145,46 @@ public class TouchManager : MonoBehaviour
             if (!getsPetted && !isDragged)
             {
                 getsPetted = true;
-                animator.Play("petEnter");
+                //animator.Play("petEnter");
+                animator.SetBool("petted", true);
             }
         }
+    }
+
+    public void PetRandom(int random)
+    {
+        if(getsPetted)
+        { 
+            switch (random)
+          { 
+              case 0:
+                  animator.SetBool("petted1", true);
+                  animator.SetBool("petted2", false);
+                  animator.SetBool("petted3", false);
+                  break;
+              case 1:
+                  animator.SetBool("petted1", false);
+                  animator.SetBool("petted2", true);
+                  animator.SetBool("petted3", false);
+                  break;
+              case 2: 
+                  animator.SetBool("petted1", false);
+                  animator.SetBool("petted2", false);
+                  animator.SetBool("petted3", true);
+                  break;
+          }  
+        }
+        else
+        {
+            animator.SetBool("petted1", false);
+            animator.SetBool("petted2", false);
+            animator.SetBool("petted3", false);
+        }
+    }
+
+    public void RandomNumber()
+    {
+        petAnimation = Random.Range(0, 3); 
     }
 
 }
