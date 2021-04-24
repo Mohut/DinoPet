@@ -60,17 +60,17 @@ public class Utahraptor : MonoBehaviour
        //coinsText.text = coins.ToString();
     }
     
-    public void Feed(Food food)
+    public void Feed(GameObject food)
     {
-        hunger += food.fillAmount;
-        xp += food.xp;
+        hunger += food.GetComponent<Food>().fillAmount;
+        xp += food.GetComponent<Food>().xp;
         FindObjectOfType<Animator>().Play("eatingAnimation");
     }
 
-    public void Medicine(Medicin medicin)
+    public void Medicine(GameObject food)
     {
-        illness += medicin.fillAmount;
-        xp += medicin.xp;
+        illness += food.GetComponent<Food>().fillAmount;
+        xp += food.GetComponent<Food>().xp;
         FindObjectOfType<Animator>().Play("eatingAnimation");
     }
     

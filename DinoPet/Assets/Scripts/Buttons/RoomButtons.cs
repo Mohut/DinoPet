@@ -13,6 +13,7 @@ public class RoomButtons : MonoBehaviour
     [SerializeField] private Light light;
     [SerializeField] private AktionSpace aktionSpace;
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject games;
     private Wink winkScript;
 
     private void Start()
@@ -30,9 +31,10 @@ public class RoomButtons : MonoBehaviour
         
         StartCoroutine(LerpFromTo(transform.position, new Vector3(0, 3.5f, -1), duration));
         shopButton.SetActive(false);
-        placeholder.SetActive(true);
+        placeholder.SetActive(false);
         lampButton.SetActive(false);
         inventory.SetActive(false);
+        games.SetActive(true);
         WakeUp();
     }
 
@@ -49,6 +51,7 @@ public class RoomButtons : MonoBehaviour
         placeholder.SetActive(false);
         lampButton.SetActive(false);
         inventory.SetActive(false);
+        games.SetActive(false);
         WakeUp();
     }
     
@@ -65,6 +68,7 @@ public class RoomButtons : MonoBehaviour
         placeholder.SetActive(true);
         lampButton.SetActive(false);
         inventory.SetActive(false);
+        games.SetActive(false);
         WakeUp();
     }
     
@@ -81,6 +85,7 @@ public class RoomButtons : MonoBehaviour
         placeholder.SetActive(false);
         lampButton.SetActive(false);
         inventory.SetActive(true);
+        games.SetActive(false);
         WakeUp();
     }
     
@@ -97,6 +102,7 @@ public class RoomButtons : MonoBehaviour
         placeholder.SetActive(false);
         lampButton.SetActive(true);
         inventory.SetActive(false);
+        games.SetActive(false);
     }
 
     IEnumerator LerpFromTo(Vector3 pos1, Vector3 pos2, float duration)

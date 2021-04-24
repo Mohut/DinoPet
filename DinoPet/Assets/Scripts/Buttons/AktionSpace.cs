@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Transactions;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AktionSpace : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class AktionSpace : MonoBehaviour
     [SerializeField] private Light light;
     [SerializeField] private SpriteRenderer nightSky;
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject games;
     private Wink winkScript;
     public bool animationActive;
 
@@ -20,6 +23,7 @@ public class AktionSpace : MonoBehaviour
         shop.SetActive(!shop.activeSelf);
     }
 
+    //turns the light on and off and lets the night sky appear and disappear
     public void Light()
     {
         if (animationActive)
@@ -32,20 +36,22 @@ public class AktionSpace : MonoBehaviour
             StartCoroutine(FadeIn());
             animator.Play("SleepEnter");
             winkScript.asleep = 1;
+            StartCoroutine(SleepAnimations());
             winkScript.Sleep();
             return;
         }
 
         if (light.intensity == 0.65f)
         {
+            winkScript.asleep = 0;
             light.intensity = 1;
             StartCoroutine(FadeOut());
             animator.Play("SleepExit");
-            winkScript.asleep = 0;
             winkScript.WakeUp();
         }
     }
 
+    //fades in the night sky
     IEnumerator FadeIn()
     {
         
@@ -59,6 +65,7 @@ public class AktionSpace : MonoBehaviour
         yield return null;
     }
     
+    //fades out the night sky
     IEnumerator FadeOut()
     {
         while(nightSky.color.a > 0f)
@@ -69,5 +76,40 @@ public class AktionSpace : MonoBehaviour
 
         animationActive = false;
         yield return null;
+    }
+
+    IEnumerator SleepAnimations()
+    {
+        while (winkScript.asleep == 1)
+        {
+            yield return new WaitForSeconds(5);
+            int randomNumber = Random.Range(0,3);
+            switch (randomNumber)
+            {
+                case 0:
+                    if(winkScript.asleep == 1)
+                    animator.Play("sleepLoopHead");
+                    break;
+                case 1:
+                    if(winkScript.asleep == 1)
+                    animator.Play("sleepLoopTail");
+                    break;
+                case 2:
+                    if(winkScript.asleep == 1)
+                    animator.Play("sleepLoopMouth");
+                    break;
+            }
+        }
+        yield return null; 
+    }
+
+    public void Games()
+    {
+        games.SetActive(!games.activeSelf);
+    }
+
+    public void StartGames(int number)
+    {
+        SceneManager.LoadScene("Minigame" + number);
     }
 }
