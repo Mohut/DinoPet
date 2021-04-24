@@ -37,11 +37,15 @@ public class Jumper : MonoBehaviour
             
                 if (Input.GetTouch(0).position.y > Screen.height / 2)
                 {
-                    if (!inAir)
+                    if (Input.GetTouch(0).phase == TouchPhase.Began)
                     {
-                        Jump();
-                        duck = false;
+                        if (!inAir)
+                        {
+                            Jump();
+                            duck = false;
+                        }
                     }
+                    
                     
                     //jumpbetter.Jumping();
                 }
